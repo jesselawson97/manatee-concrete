@@ -1,0 +1,77 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+const {
+  title = 'Manatee Concrete | Commercial Concrete Contractor Bradenton FL',
+  description = 'Manatee Concrete is a commercial concrete contractor serving Bradenton, Sarasota, and Manatee County FL. Parking lots, driveways, curb & gutter, sidewalks, and concrete repair. Call 941-730-8491.',
+  canonical = 'https://manateeconcrete.com',
+} = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "name": "Manatee Concrete",
+  "url": "https://manateeconcrete.com",
+  "description": "Commercial concrete contractor in Bradenton FL specializing in parking lots, commercial driveways, curb & gutter, sidewalks, and concrete repair.",
+  "telephone": "+19417308491",
+  "email": "projects@gulfwayconstruction.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bradenton",
+    "addressRegion": "FL",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Bradenton" },
+    { "@type": "City", "name": "Sarasota" },
+    { "@type": "City", "name": "Palmetto" },
+    { "@type": "City", "name": "Venice" },
+    { "@type": "AdministrativeArea", "name": "Manatee County" },
+    { "@type": "AdministrativeArea", "name": "Sarasota County" }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Commercial Concrete Services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Parking Lots" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Driveways" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Curb & Gutter" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sidewalks" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concrete Repair & Resurfacing" } }
+    ]
+  },
+  "sameAs": []
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="commercial concrete contractor Bradenton FL, parking lot contractor Manatee County, concrete driveway Sarasota, curb and gutter Bradenton, concrete repair Manatee County" />
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Bradenton, Florida" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://manateeconcrete.com/images/hero.jpg" />
+    <meta property="og:site_name" content="Manatee Concrete" />
+    <meta property="og:locale" content="en_US" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
