@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { services, cities } from '../data/residential';
+const main = services.filter(s => !s.cities);
+const glass = services.find(s => s.slug === 'glass-railings');
+---
+<Base
+  title="Residential Concrete & Pavers Bradenton, Sarasota & Lakewood Ranch | Manatee Concrete"
+  description="Driveways, stamped concrete, pool decks, paver driveways and patios, travertine and paver repair for homes in Bradenton, Lakewood Ranch, Sarasota and Parrish. Free estimates: 941-730-8491."
+  canonical="https://manateeconcrete.com/residential"
+>
+  <Nav />
+  <section class="hero" style="min-height:60vh">
+    <div class="hero-bg"><img src="/images/service-driveway.jpg" alt="Residential concrete and paver driveway" loading="eager" /></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <p class="hero-eyebrow">Residential — Manatee &amp; Sarasota County</p>
+      <h1>Concrete, pavers &amp; <em>stone</em><br />for your home.</h1>
+      <p class="hero-sub">Driveways, pool decks, patios, travertine and repairs for homes in Bradenton, Lakewood Ranch, Sarasota and Parrish.</p>
+      <a href="/#contact" class="btn btn-white">Get a Free Estimate</a>
+    </div>
+  </section>
+
+  <section class="services-strip">
+    <div class="container">
+      <span class="section-label">Residential Services</span>
+      <h2 class="section-title">What We Build for Homeowners</h2>
+      <div class="areas-grid">
+        {main.map(s => (
+          <div class="areas-col">
+            <h3>{s.name}</h3>
+            <p style="font-size:.88rem;color:var(--mid);margin-bottom:.75rem">{s.short}</p>
+            <ul>
+              {cities.map(c => <li><a href={`/${s.slug}-${c.slug}`}>{c.name}</a></li>)}
+            </ul>
+          </div>
+        ))}
+        {glass && (
+          <div class="areas-col">
+            <h3>{glass.name}</h3>
+            <p style="font-size:.88rem;color:var(--mid);margin-bottom:.75rem">{glass.short}</p>
+            <ul><li><a href="/glass-railings-sarasota">Sarasota, Bradenton &amp; Lakewood Ranch</a></li></ul>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Ready for a Free Estimate?</h2>
+      <p>Tell us about your driveway, pool deck or patio and we'll be in touch within one business day.</p>
+      <a href="/#contact" class="btn btn-white">Request an Estimate</a>
+    </div>
+  </section>
+  <Footer />
+</Base>

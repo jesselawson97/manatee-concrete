@@ -1,0 +1,10 @@
+---
+import ResidentialServiceCity from '../layouts/ResidentialServiceCity.astro';
+import { pages } from '../data/residential';
+
+export function getStaticPaths() {
+  return pages().map(p => ({ params: { slug: p.slug }, props: { service: p.service, city: p.city } }));
+}
+const { service, city } = Astro.props;
+---
+<ResidentialServiceCity service={service} city={city} />

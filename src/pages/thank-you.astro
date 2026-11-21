@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base title="Thank You | Manatee Concrete" description="Thanks for contacting Manatee Concrete." canonical="https://manateeconcrete.com/thank-you">
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <Nav />
+  <section style="padding:10rem 0 6rem;text-align:center">
+    <div class="container" style="max-width:640px">
+      <span class="section-label">Message received</span>
+      <h1 class="section-title">Thanks! We got your request.</h1>
+      <p style="color:var(--mid);margin-bottom:1.5rem">We'll reach out within one business day to set up your free estimate. Need us sooner? Call <a href="tel:9417308491" style="color:var(--gold);font-weight:700">941-730-8491</a>.</p>
+      <a href="/" class="btn btn-gold">Back to Home</a>
+    </div>
+  </section>
+  <Footer />
+</Base>

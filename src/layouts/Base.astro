@@ -6,7 +6,7 @@ interface Props {
 }
 const {
   title = 'Manatee Concrete | Commercial Concrete Contractor Bradenton FL',
-  description = 'Manatee Concrete is a commercial concrete contractor serving Bradenton, Sarasota, and Manatee County FL. Parking lots, driveways, curb & gutter, sidewalks, and concrete repair. Call 941-730-8491.',
+  description = 'Manatee Concrete is a commercial and residential concrete contractor serving Bradenton, Sarasota, Lakewood Ranch and Manatee County FL. Parking lots, driveways, pool decks, pavers and concrete repair. Call 941-730-8491.',
   canonical = 'https://manateeconcrete.com',
 } = Astro.props;
 
@@ -15,7 +15,7 @@ const schema = {
   "@type": "GeneralContractor",
   "name": "Manatee Concrete",
   "url": "https://manateeconcrete.com",
-  "description": "Commercial concrete contractor in Bradenton FL specializing in parking lots, commercial driveways, curb & gutter, sidewalks, and concrete repair.",
+  "description": "Commercial and residential concrete contractor in Bradenton FL: parking lots, curb & gutter, sidewalks, concrete repair, residential driveways, stamped concrete, pool decks, pavers and travertine.",
   "telephone": "+19417308491",
   "email": "projects@gulfwayconstruction.com",
   "address": {
@@ -29,18 +29,27 @@ const schema = {
     { "@type": "City", "name": "Sarasota" },
     { "@type": "City", "name": "Palmetto" },
     { "@type": "City", "name": "Venice" },
+    { "@type": "City", "name": "Lakewood Ranch" },
+    { "@type": "City", "name": "Parrish" },
     { "@type": "AdministrativeArea", "name": "Manatee County" },
     { "@type": "AdministrativeArea", "name": "Sarasota County" }
   ],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "Commercial Concrete Services",
+    "name": "Concrete & Paver Services",
     "itemListElement": [
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Parking Lots" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Driveways" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Curb & Gutter" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sidewalks" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concrete Repair & Resurfacing" } }
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concrete Repair & Resurfacing" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Residential Driveway Replacement" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stamped Concrete" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concrete Pool Decks" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Paver Driveways & Patios" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Travertine Pool Decks" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Paver Repair" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Glass Railings" } }
     ]
   },
   "sameAs": []
@@ -53,7 +62,7 @@ const schema = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="commercial concrete contractor Bradenton FL, parking lot contractor Manatee County, concrete driveway Sarasota, curb and gutter Bradenton, concrete repair Manatee County" />
+    <meta name="keywords" content="concrete contractor Bradenton FL, parking lot contractor Manatee County, concrete driveway Sarasota, pavers Bradenton, stamped concrete Sarasota, pool deck Lakewood Ranch" />
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="US-FL" />
     <meta name="geo.placename" content="Bradenton, Florida" />

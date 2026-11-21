@@ -25,8 +25,8 @@ const canonical = `https://manateeconcrete.com/${serviceSlug}-${city.toLowerCase
 
 const faqs = [
   {
-    q: `Do you only do commercial concrete work in ${city}?`,
-    a: `Yes. Manatee Concrete focuses exclusively on commercial concrete projects throughout ${city} and ${county}. Our crews, equipment, and process are built for the scale and durability requirements of commercial work — parking lots, driveways, curb and gutter, sidewalks, and concrete repair.`
+    q: `Do you do residential concrete work in ${city} too?`,
+    a: `Yes. Our commercial crews handle parking lots, driveways, curb and gutter, sidewalks and concrete repair throughout ${city} and ${county}. We also build residential driveways, stamped concrete, pool decks, pavers and travertine. See our residential services page for details.`
   },
   {
     q: `How long does commercial concrete take to cure before it can be used?`,
@@ -166,8 +166,8 @@ const schema = {
           <p>Concrete delays everything downstream. We set realistic timelines, hold to them, and coordinate with your other trades from day one.</p>
         </div>
         <div class="lp-why-card">
-          <h3>Commercial Only</h3>
-          <p>We don't do residential driveways. Every project we take on is commercial — our crews, equipment, and process are built for it.</p>
+          <h3>Built for Commercial</h3>
+          <p>Our commercial crews, equipment and process are built for the scale, loads and schedules that business properties demand.</p>
         </div>
         <div class="lp-why-card">
           <h3>Local to {city}</h3>
@@ -244,7 +244,7 @@ const schema = {
         <form class="contact-form" method="POST" action="https://api.web3forms.com/submit">
           <input type="hidden" name="access_key" value="8e57c099-bf52-4809-b261-521a3afe7b05" />
           <input type="hidden" name="subject" value={`${service} Inquiry — ${city} | Manatee Concrete`} />
-          <input type="hidden" name="redirect" value="https://manateeconcrete.com" />
+          <input type="hidden" name="redirect" value="https://manateeconcrete.com/thank-you" />
           <input type="hidden" name="project-type" value={service} />
           <div class="form-row">
             <input type="text" name="first-name" placeholder="First Name" required />
