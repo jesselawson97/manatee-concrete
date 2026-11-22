@@ -145,3 +145,7 @@ a { color: inherit; text-decoration: none; }
   .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
   .form-row { grid-template-columns: 1fr; }
 }
+
+/* Referral disclosure */
+.form-consent { font-size: .72rem; line-height: 1.5; color: var(--mid); margin: 0; }
+.footer-disclosure { max-width: 640px; font-size: .75rem; line-height: 1.5; opacity: .8; }

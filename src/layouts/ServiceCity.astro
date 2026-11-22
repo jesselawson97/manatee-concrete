@@ -20,41 +20,41 @@ interface Props {
 const { service, serviceSlug, city, county, headline, subheadline, intro, body, bullets, heroImage, heroAlt } = Astro.props;
 
 const title = `${service} ${city} FL | Manatee Concrete`;
-const description = `Manatee Concrete provides professional ${service.toLowerCase()} in ${city}, FL and throughout ${county}. Licensed commercial concrete contractor. Call 941-730-8491 for a free consultation.`;
+const description = `${service} in ${city}, FL and throughout ${county}. Get matched with a licensed, insured local commercial concrete contractor. Call 941-730-8491 for a free consultation.`;
 const canonical = `https://manateeconcrete.com/${serviceSlug}-${city.toLowerCase()}`;
 
 const faqs = [
   {
-    q: `Do you do residential concrete work in ${city} too?`,
-    a: `Yes. Our commercial crews handle parking lots, driveways, curb and gutter, sidewalks and concrete repair throughout ${city} and ${county}. We also build residential driveways, stamped concrete, pool decks, pavers and travertine. See our residential services page for details.`
+    q: `How does Manatee Concrete work?`,
+    a: `Manatee Concrete is a referral service. Tell us about your project and we connect you with a licensed, insured concrete contractor who serves ${city} and ${county}. The contractor quotes, contracts and performs the work directly with you. Our service is free to you; we may receive a referral fee from the contractor. We also refer residential driveway, pool deck and paver projects.`
   },
   {
     q: `How long does commercial concrete take to cure before it can be used?`,
-    a: `Concrete typically reaches enough strength for foot traffic in 24 to 48 hours and vehicle traffic in about 7 days, though it continues curing and gaining strength for roughly 28 days. We schedule pours and sequencing to minimize the disruption to your business during that window.`
+    a: `Concrete typically reaches enough strength for foot traffic in 24 to 48 hours and vehicle traffic in about 7 days, though it continues curing and gaining strength for roughly 28 days. Your contractor can schedule pours and sequencing to minimize disruption to your business during that window.`
   },
   {
     q: `Is concrete better than asphalt for a commercial parking lot or driveway?`,
-    a: `For most commercial applications, concrete lasts significantly longer than asphalt — often 30+ years versus 15 to 20 — with far less ongoing maintenance. Concrete handles heavy and stationary loads better and holds up well in Florida's heat. We'll give you an honest recommendation based on your specific use and site conditions.`
+    a: `For most commercial applications, concrete lasts significantly longer than asphalt — often 30+ years versus 15 to 20 — with far less ongoing maintenance. Concrete handles heavy and stationary loads better and holds up well in Florida's heat. A good contractor will recommend the right material for your specific use and site conditions.`
   },
   {
-    q: `Do you handle permitting for commercial concrete projects?`,
-    a: `Yes. We handle permit drawings, applications, and inspections with the local building department so you don't have to. Our familiarity with ${county} requirements helps keep projects moving without unnecessary delays.`
+    q: `Who handles permitting for commercial concrete projects?`,
+    a: `The contractor performing the work pulls the permit and schedules inspections with the local building department. Our partner contractors work in ${county} regularly and know its requirements.`
   },
   {
-    q: `Are you licensed and insured?`,
-    a: `Yes. Manatee Concrete operates as a licensed commercial contractor in the state of Florida and carries general liability and workers' compensation coverage on every project. We can provide a certificate of insurance on request.`
+    q: `Are the contractors licensed and insured?`,
+    a: `We only refer contractors who carry the licenses and insurance their work requires. Before you sign, ask your contractor for their license number and a certificate of insurance; any reputable contractor will provide both.`
   },
   {
-    q: `Can you do the work without shutting down our business?`,
-    a: `In most cases, yes. We plan phased pours, off-hours scheduling, and temporary access routing so your business keeps operating during construction. We'll walk through a plan with you before work begins.`
+    q: `Can the work be done without shutting down my business?`,
+    a: `In most cases, yes. Phased pours, off-hours scheduling and temporary access routing keep most businesses operating during construction. Ask your contractor to walk through a phasing plan before work begins.`
   },
   {
-    q: `Do your sidewalks and ramps meet ADA requirements?`,
-    a: `Yes. All of our commercial sidewalks, ramps, and parking areas are built to current ADA standards for slope, width, and detectable warnings — protecting you from compliance issues and liability.`
+    q: `Do commercial sidewalks and ramps need to meet ADA requirements?`,
+    a: `Yes. Commercial sidewalks, ramps and parking areas must meet current ADA standards for slope, width and detectable warnings. Make sure your contractor's proposal states the work will be built to code.`
   },
   {
     q: `How long does a typical commercial concrete project take?`,
-    a: `Timelines depend on scope, site conditions, and permitting, but most commercial concrete projects in ${city} run anywhere from a few days to a few weeks. We give you a realistic schedule up front in your proposal and keep you updated throughout.`
+    a: `Timelines depend on scope, site conditions, and permitting, but most commercial concrete projects in ${city} run anywhere from a few days to a few weeks. Your contractor should give you a realistic schedule up front in the proposal.`
   }
 ];
 
@@ -83,8 +83,9 @@ const schema = {
   "@type": "Service",
   "name": `${service} in ${city}, FL`,
   "provider": {
-    "@type": "GeneralContractor",
+    "@type": "LocalBusiness",
     "name": "Manatee Concrete",
+    "description": "Referral service connecting property owners with licensed local concrete contractors.",
     "url": "https://manateeconcrete.com",
     "telephone": "+19417308491",
     "address": {
@@ -155,23 +156,23 @@ const schema = {
   <section class="lp-why">
     <div class="container">
       <span class="section-label">Why Manatee Concrete</span>
-      <h2>The {city} Commercial Concrete Contractor Built for Business</h2>
+      <h2>The Right Commercial Concrete Contractor in {city}</h2>
       <div class="lp-why-grid">
         <div class="lp-why-card">
           <h3>Licensed &amp; Insured</h3>
-          <p>Licensed commercial contractor in the state of Florida. Full general liability and workers' comp on every project.</p>
+          <p>We only refer contractors who carry the licenses and insurance their work requires.</p>
         </div>
         <div class="lp-why-card">
           <h3>On Schedule</h3>
-          <p>Concrete delays everything downstream. We set realistic timelines, hold to them, and coordinate with your other trades from day one.</p>
+          <p>Concrete delays everything downstream. Our partners set realistic timelines and coordinate with your other trades from day one.</p>
         </div>
         <div class="lp-why-card">
-          <h3>Built for Commercial</h3>
-          <p>Our commercial crews, equipment and process are built for the scale, loads and schedules that business properties demand.</p>
+          <h3>Free to You</h3>
+          <p>Our matching service costs you nothing. You deal directly with the contractor and are never obligated to hire.</p>
         </div>
         <div class="lp-why-card">
           <h3>Local to {city}</h3>
-          <p>We know {county} permitting, local inspectors, and material suppliers. That local knowledge keeps projects moving without costly delays.</p>
+          <p>Our partner contractors know {county} permitting, local inspectors and material suppliers, which keeps projects moving.</p>
         </div>
       </div>
     </div>
@@ -231,7 +232,7 @@ const schema = {
           <span class="section-label">Let's Talk</span>
           <h2>{service} in {city} — Get a Free Quote</h2>
           <p>
-            Tell us about your project and we'll reach out within one business day.
+            Tell us about your project and we'll connect you with a licensed local contractor, who will reach out within one business day.
             No obligation, no pressure.
           </p>
           <div class="contact-detail">
@@ -253,6 +254,7 @@ const schema = {
           <input type="email" name="email" placeholder="Email Address" required />
           <input type="tel" name="phone" placeholder="Phone Number" />
           <textarea name="message" placeholder={`Tell us about your ${service.toLowerCase()} project in ${city}…`}></textarea>
+          <p class="form-consent">Manatee Concrete is a referral service. By submitting, you agree we may share your information with a licensed partner contractor who may call, text or email you about your project.</p>
           <button type="submit">Send Message</button>
         </form>
       </div>

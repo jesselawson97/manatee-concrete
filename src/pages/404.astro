@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base title="Page Not Found | Manatee Concrete" description="This page doesn't exist." canonical="https://manateeconcrete.com/404">
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <Nav />
+  <section style="padding:10rem 0 6rem;text-align:center">
+    <div class="container" style="max-width:640px">
+      <span class="section-label">404</span>
+      <h1 class="section-title">We couldn't find that page.</h1>
+      <p style="color:var(--mid);margin-bottom:1.5rem">It may have moved. Try one of these, or call <a href="tel:9417308491" style="color:var(--gold);font-weight:700">941-730-8491</a>.</p>
+      <p style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+        <a href="/" class="btn btn-gold">Commercial Concrete</a>
+        <a href="/residential" class="btn btn-gold">Residential Concrete &amp; Pavers</a>
+      </p>
+    </div>
+  </section>
+  <Footer />
+</Base>
