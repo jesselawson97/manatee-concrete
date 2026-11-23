@@ -247,8 +247,15 @@ export const services: ResService[] = [
     slug: 'glass-railings',
     short: 'Structural glass railings for balconies, decks and staircases, indoors or out, with optional low-voltage LED lighting.',
     heroImage: '',
-    cities: ['sarasota'],
-    intro: () => 'Structural glass railings give you an unobstructed view and a clean, modern look. Get matched with a local contractor who designs and installs glass railings for balconies, decks, pool areas and staircases, inside and out, across Sarasota, Bradenton and Lakewood Ranch.',
+    cities: ['sarasota', 'bradenton', 'lakewood-ranch'],
+    intro: (c) => {
+      const local: Record<string, string> = {
+        sarasota: 'From bayfront condos to Siesta Key and Lido Key homes, glass keeps the water view open.',
+        bradenton: 'On Manatee River and Perico Bay homes, glass keeps the water view open where pickets would block it.',
+        'lakewood-ranch': 'In Lakewood Ranch, glass is a popular upgrade for lanais, lake-view balconies and open staircases in newer homes.',
+      };
+      return `Structural glass railings give you an unobstructed view and a clean, modern look. Get matched with a local contractor who designs and installs glass railings for balconies, decks, pool areas and staircases, inside and out, in ${c.name}. ${local[c.slug] ?? ''}`;
+    },
     body: [
       'Options include frameless glass set in a base shoe, glass held with stainless standoffs, and glass panels with a slim top rail. All systems use tempered or laminated safety glass and are installed to meet the Florida Building Code requirements for guards.',
       'For a finishing touch, low-voltage LED lighting can be integrated into the base channel or handrail. It lights stairs and balcony edges at night and makes the glass glow.',

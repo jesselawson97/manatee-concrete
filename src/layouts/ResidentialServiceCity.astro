@@ -12,7 +12,7 @@ interface Props {
 const { service, city } = Astro.props;
 const slug = `${service.slug}-${city.slug}`;
 const isGlass = service.slug === 'glass-railings';
-const areaLabel = isGlass ? 'Sarasota, Bradenton & Lakewood Ranch' : city.name;
+const areaLabel = city.name;
 
 const title = `${service.name} ${city.name} FL | Manatee Concrete`;
 const description = `${service.name} in ${areaLabel}, FL. Get matched with a licensed, insured local contractor. ${service.short} Free estimates: 941-730-8491.`;
@@ -31,7 +31,7 @@ const faqs = [
 ];
 
 const related = servicesForCity(city.slug).filter(s => s.slug !== service.slug);
-const otherCities = isGlass ? [] : cities.filter(c => c.slug !== city.slug);
+const otherCities = cities.filter(c => c.slug !== city.slug && (!service.cities || service.cities.includes(c.slug)));
 
 const faqSchema = {
   "@context": "https://schema.org",

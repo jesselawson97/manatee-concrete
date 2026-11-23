@@ -41,7 +41,7 @@ const glass = services.find(s => s.slug === 'glass-railings');
           <div class="areas-col">
             <h3>{glass.name}</h3>
             <p style="font-size:.88rem;color:var(--mid);margin-bottom:.75rem">{glass.short}</p>
-            <ul><li><a href="/glass-railings-sarasota">Sarasota, Bradenton &amp; Lakewood Ranch</a></li></ul>
+            <ul>{cities.filter(c => glass.cities?.includes(c.slug)).map(c => <li><a href={`/glass-railings-${c.slug}`}>{c.name}</a></li>)}</ul>
           </div>
         )}
       </div>
