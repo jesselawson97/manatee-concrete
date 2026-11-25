@@ -9,6 +9,8 @@ const {
   description = 'Manatee Concrete connects Bradenton, Sarasota, Lakewood Ranch and Manatee County property owners with licensed concrete and paver contractors. Parking lots, driveways, pool decks, pavers and concrete repair. Call 941-730-8491.',
   canonical = 'https://manateeconcrete.com',
 } = Astro.props;
+// Cloudflare serves pages at /page/ (trailing slash), so canonical URLs must match.
+const canonicalUrl = /\/$|\.[a-z0-9]+$/i.test(canonical) ? canonical : canonical + '/';
 
 // Google Analytics 4: paste your Measurement ID (looks like G-XXXXXXXXXX). Empty = no tracking loads.
 const GA_ID = '';
@@ -70,9 +72,9 @@ const schema = {
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="US-FL" />
     <meta name="geo.placename" content="Bradenton, Florida" />
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://manateeconcrete.com/images/hero.jpg" />
