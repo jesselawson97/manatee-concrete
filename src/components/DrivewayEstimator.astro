@@ -1,0 +1,163 @@
+---
+// Driveway cost estimator + quote form. Ranges match the cost copy in src/data/residential.ts.
+interface Props { city?: string; initial?: 'concrete' | 'stamped' | 'pavers' | 'travertine'; page: string; }
+const { city = 'Manatee & Sarasota County', initial = 'concrete', page } = Astro.props;
+const materials = [
+  { id: 'concrete',   name: 'Concrete (broom finish)', lo: 8,  hi: 14, note: 'Includes tear-out of the old driveway' },
+  { id: 'stamped',    name: 'Stamped concrete',        lo: 12, hi: 20, note: 'Pattern and color add to the cost' },
+  { id: 'pavers',     name: 'Concrete pavers',         lo: 15, hi: 24, note: 'Compacted base, edge restraint, polymeric sand' },
+  { id: 'travertine', name: 'Travertine pavers',       lo: 22, hi: 30, note: 'Premium natural stone' },
+];
+const sizes = [
+  { id: '400',  label: '1-car', sub: '~400 sq ft' },
+  { id: '750',  label: '2-car', sub: '~750 sq ft' },
+  { id: '1100', label: '3-car or long', sub: '~1,100 sq ft' },
+  { id: 'custom', label: 'Custom', sub: 'Enter size' },
+];
+const sms = `sms:+19417308491?&body=${encodeURIComponent(`Hi, here's a photo of my driveway in ${city}. I'd like an estimate.`)}`;
+---
+<section class="dce" id="driveway-cost">
+  <div class="container">
+    <span class="section-label">Driveway Cost Estimator</span>
+    <h2>What will a new driveway cost in {city}?</h2>
+    <p class="dce-lead">Pick a size and a material for a ballpark price based on typical local pricing, then lock in a free on-site quote.</p>
+    <div class="dce-grid">
+      <div class="dce-inputs">
+        <fieldset>
+          <legend>1. Driveway size</legend>
+          <div class="dce-chips">
+            {sizes.map((s, i) => (
+              <label class="dce-chip"><input type="radio" name="dce-size" value={s.id} checked={i === 1} /><span><b>{s.label}</b><small>{s.sub}</small></span></label>
+            ))}
+          </div>
+          <div class="dce-custom" hidden>
+            <label>Length (ft)<input type="number" inputmode="numeric" min="5" max="400" value="40" data-dce="len" /></label>
+            <span>×</span>
+            <label>Width (ft)<input type="number" inputmode="numeric" min="5" max="100" value="18" data-dce="wid" /></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. Material</legend>
+          <div class="dce-mats">
+            {materials.map(m => (
+              <label class="dce-mat"><input type="radio" name="dce-mat" value={m.id} checked={m.id === initial} data-lo={m.lo} data-hi={m.hi} /><span><b>{m.name}</b><small>${m.lo}–${m.hi} / sq ft · {m.note}</small></span></label>
+            ))}
+          </div>
+        </fieldset>
+      </div>
+      <div class="dce-result" aria-live="polite">
+        <p class="dce-r-label">Estimated range</p>
+        <p class="dce-r-price" data-dce="price">$6,000 – $10,500</p>
+        <p class="dce-r-sub" data-dce="sub">750 sq ft · Concrete (broom finish)</p>
+        <table class="dce-compare">
+          <tbody>
+            {materials.map(m => <tr data-row={m.id}><td>{m.name}</td><td data-dce-cmp={m.id}></td></tr>)}
+          </tbody>
+        </table>
+        <p class="dce-fine">Ballpark only. Final price depends on demo, base work, permits, access and finish. Your contractor gives a written quote after seeing the site.</p>
+        <form class="contact-form dce-form" method="POST" action="https://api.web3forms.com/submit">
+          <input type="hidden" name="access_key" value="8e57c099-bf52-4809-b261-521a3afe7b05" />
+          <input type="hidden" name="subject" value={`RESIDENTIAL: Driveway estimate — ${city} | Manatee Concrete`} />
+          <input type="hidden" name="redirect" value="https://manateeconcrete.com/thank-you" />
+          <input type="hidden" name="project-type" value="Residential Driveway (cost estimator)" />
+          <input type="hidden" name="page" value={page} />
+          <input type="hidden" name="estimate" data-dce="field" value="" />
+          <p class="dce-form-title">Get your exact price, free</p>
+          <div class="form-row">
+            <input type="text" name="first-name" placeholder="First Name" required />
+            <input type="tel" name="phone" placeholder="Phone" required />
+          </div>
+          <input type="email" name="email" placeholder="Email (optional)" />
+          <input type="text" name="address" placeholder="Project Address or Neighborhood" />
+          <p class="form-consent">Manatee Concrete is a referral service. By submitting, you agree we may share your information with a licensed partner contractor who may call, text or email you about your project.</p>
+          <button type="submit">Get My Free Quote</button>
+          <a class="dce-sms" href={sms}>Or text a photo of your driveway: 941-730-8491</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const fmt = (n: number) => '$' + (Math.round(n / 100) * 100).toLocaleString('en-US');
+  document.querySelectorAll<HTMLElement>('.dce').forEach(root => {
+    const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+    const custom = q<HTMLElement>('.dce-custom');
+    const calc = () => {
+      const size = q<HTMLInputElement>('input[name="dce-size"]:checked').value;
+      custom.hidden = size !== 'custom';
+      const sqft = size === 'custom'
+        ? Math.max(0, (+q<HTMLInputElement>('[data-dce="len"]').value || 0) * (+q<HTMLInputElement>('[data-dce="wid"]').value || 0))
+        : +size;
+      const mat = q<HTMLInputElement>('input[name="dce-mat"]:checked');
+      const name = mat.closest('label')!.querySelector('b')!.textContent!;
+      const range = (lo: number, hi: number) => {
+        const min = 2500; // small jobs carry a minimum charge
+        return `${fmt(Math.max(min, sqft * lo))} – ${fmt(Math.max(min * 1.4, sqft * hi))}`;
+      };
+      const txt = range(+mat.dataset.lo!, +mat.dataset.hi!);
+      q('[data-dce="price"]').textContent = sqft ? txt : '—';
+      q('[data-dce="sub"]').textContent = `${sqft.toLocaleString('en-US')} sq ft · ${name}`;
+      root.querySelectorAll<HTMLInputElement>('input[name="dce-mat"]').forEach(m => {
+        root.querySelector(`[data-dce-cmp="${m.value}"]`)!.textContent = sqft ? range(+m.dataset.lo!, +m.dataset.hi!) : '—';
+        root.querySelector(`[data-row="${m.value}"]`)!.classList.toggle('on', m === mat);
+      });
+      q<HTMLInputElement>('[data-dce="field"]').value = `${sqft} sq ft, ${name}, estimate ${txt}`;
+    };
+    let used = false;
+    const onUse = () => {
+      calc();
+      if (!used) { used = true; (window as any).track?.('estimator_used', { page: location.pathname }); }
+    };
+    root.addEventListener('input', onUse);
+    root.addEventListener('change', onUse);
+    root.querySelector('.dce-form')!.addEventListener('submit', () => {
+      (window as any).track?.('estimator_quote_request', { estimate: q<HTMLInputElement>('[data-dce="field"]').value, page: location.pathname });
+    }, true);
+    calc();
+  });
+</script>
+
+<style>
+.dce { padding: 5rem 0; background: var(--light); }
+.dce h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem); margin: .5rem 0 .75rem; }
+.dce-lead { color: var(--mid); max-width: 640px; margin-bottom: 2rem; }
+.dce-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2.5rem; align-items: start; }
+.dce fieldset { border: 0; padding: 0; margin: 0 0 1.75rem; }
+.dce legend { font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .75rem; }
+.dce-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+.dce-chip, .dce-mat { position: relative; cursor: pointer; }
+.dce-chip input, .dce-mat input { position: absolute; opacity: 0; }
+.dce-chip span, .dce-mat span { display: block; background: var(--white); border: 1.5px solid #ddd; border-radius: var(--radius); padding: .8rem .9rem; transition: border-color .2s, box-shadow .2s; }
+.dce-chip b, .dce-mat b { display: block; font-size: .92rem; }
+.dce-chip small, .dce-mat small { display: block; font-size: .78rem; color: var(--mid); margin-top: .15rem; }
+.dce-chip input:checked + span, .dce-mat input:checked + span { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.dce-chip input:focus-visible + span, .dce-mat input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+.dce-mats { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.dce-custom { display: flex; align-items: end; gap: .75rem; margin-top: .9rem; }
+.dce-custom[hidden] { display: none; }
+.dce-custom label { font-size: .8rem; font-weight: 600; display: flex; flex-direction: column; gap: .3rem; }
+.dce-custom input { width: 110px; padding: .6rem .75rem; border: 1.5px solid #ddd; border-radius: var(--radius); font: inherit; }
+.dce-custom span { padding-bottom: .6rem; }
+.dce-result { background: var(--white); border-top: 4px solid var(--gold); border-radius: var(--radius); padding: 1.75rem; box-shadow: 0 6px 24px rgba(0,0,0,.06); }
+.dce-r-label { font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.dce-r-price { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; line-height: 1.2; margin: .25rem 0; }
+.dce-r-sub { color: var(--mid); font-size: .9rem; margin-bottom: 1rem; }
+.dce-compare { width: 100%; border-collapse: collapse; font-size: .85rem; margin-bottom: .75rem; }
+.dce-compare td { padding: .4rem 0; border-bottom: 1px solid rgba(0,0,0,.07); color: var(--mid); }
+.dce-compare td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.dce-compare tr.on td { color: var(--dark); font-weight: 700; }
+.dce-fine { font-size: .75rem; color: var(--mid); margin-bottom: 1.25rem; }
+.dce-form { border-top: 1px solid rgba(0,0,0,.08); padding-top: 1.25rem; }
+.dce-form-title { font-weight: 700; font-size: 1rem; }
+.dce-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+.dce-sms { display: block; text-align: center; font-size: .85rem; font-weight: 600; color: var(--gold); text-decoration: underline; }
+@media (max-width: 900px) {
+  .dce-grid { grid-template-columns: 1fr; }
+  .dce-chips { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .dce-mats { grid-template-columns: 1fr; }
+  .dce-form .form-row { grid-template-columns: 1fr; }
+}
+</style>

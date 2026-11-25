@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import DrivewayEstimator from '../components/DrivewayEstimator.astro';
+import { cities } from '../data/residential';
+
+const canonical = 'https://manateeconcrete.com/driveway-cost-calculator';
+const faqs = [
+  { q: 'How much does a new concrete driveway cost in Bradenton or Sarasota?', a: 'Most residential concrete driveway replacements in Manatee and Sarasota County run roughly $8 to $14 per square foot including tear-out of the old slab. A typical two-car driveway of about 750 square feet lands around $6,000 to $10,500.' },
+  { q: 'Are pavers more expensive than concrete?', a: 'Yes, usually. Concrete pavers commonly run about $15 to $24 per square foot and travertine about $22 to $30, versus $8 to $14 for a broom-finish concrete driveway. Pavers flex instead of cracking and can be lifted and reset, which is why many Florida homeowners still choose them.' },
+  { q: 'What makes a driveway cost more?', a: 'Tearing out and hauling away the old slab, tree roots, poor soil that needs extra base, long or sloped driveways, a new street apron in the right-of-way, decorative finishes and borders, and HOA requirements on materials or colors.' },
+  { q: 'Do I need a permit to replace my driveway?', a: 'Usually yes, especially for work in the right-of-way at the street. Permits go through the city or county building department, and many HOAs also require architectural approval. Your contractor confirms what applies at your address and handles the paperwork.' },
+  { q: 'How accurate is this estimate?', a: 'It is a ballpark based on typical local pricing. Your contractor measures on site and gives you a written, itemized quote, which is free.' },
+];
+const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs.map(f => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } })) };
+---
+<Base
+  title="Driveway Cost Calculator | Bradenton, Sarasota & Lakewood Ranch | Manatee Concrete"
+  description="Estimate the cost of a new concrete, stamped, paver or travertine driveway in Bradenton, Lakewood Ranch, Sarasota and Parrish. Free on-site quotes from licensed local contractors."
+  canonical={canonical}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />
+  <Nav />
+  <section class="dcc-hero">
+    <div class="container">
+      <p class="dcc-eyebrow">Residential — Manatee &amp; Sarasota County</p>
+      <h1>Driveway Cost Calculator</h1>
+      <p class="dcc-sub">See what a new concrete, stamped, paver or travertine driveway typically costs in Bradenton, Lakewood Ranch, Sarasota and Parrish, then get an exact price from a licensed local contractor.</p>
+    </div>
+  </section>
+
+  <DrivewayEstimator page={canonical} />
+
+  <section class="dcc-body">
+    <div class="container dcc-inner">
+      <h2>What drives the price of a driveway</h2>
+      <p>Size and material set most of the price, but the work you don't see matters just as much. A proper replacement removes the old slab, re-grades and compacts the base, and pours 4 to 5 inches of fiber-reinforced concrete with control joints, or builds a compacted crushed base for pavers. Skipping that base work is why so many Florida driveways crack, sink or heave from tree roots.</p>
+      <p>Costs go up with tree roots and poor soil, long or sloped driveways, a new apron at the street, decorative borders and finishes, and HOA rules on materials and colors. Widening a driveway for an extra car is priced separately and usually costs more per square foot because of tie-in work and minimum charges.</p>
+      <h2>Concrete or pavers?</h2>
+      <p>Concrete costs less up front and has a clean, simple look. Stamped concrete gives you a stone or slate look for less than pavers. Pavers cost more, but they flex instead of cracking, and a section that settles can be lifted and reset instead of replaced. If you are undecided, ask for both to be priced.</p>
+      <h2>Driveway pages by area</h2>
+      <ul class="dcc-links">
+        {cities.map(c => <li><a href={`/concrete-driveway-${c.slug}`}>Concrete driveways in {c.name}</a></li>)}
+        {cities.map(c => <li><a href={`/paver-driveway-${c.slug}`}>Paver driveways in {c.name}</a></li>)}
+      </ul>
+      <h2>Driveway cost FAQs</h2>
+      <div class="dcc-faq">
+        {faqs.map(f => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+      </div>
+    </div>
+  </section>
+  <Footer />
+</Base>
+
+<style>
+.dcc-hero { background: linear-gradient(135deg, var(--dark) 0%, #2b2a26 100%); color: var(--white); padding: 150px 0 3.5rem; }
+.dcc-eyebrow { font-size: .75rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-lt); }
+.dcc-hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem); margin: .5rem 0 1rem; }
+.dcc-sub { max-width: 640px; opacity: .9; font-size: 1.05rem; }
+.dcc-body { padding: 4.5rem 0; }
+.dcc-inner { max-width: 820px; }
+.dcc-body h2 { font-family: var(--font-serif); font-size: clamp(1.4rem, 2.5vw, 1.9rem); margin: 2rem 0 .9rem; }
+.dcc-body h2:first-child { margin-top: 0; }
+.dcc-body p { color: var(--mid); margin-bottom: .9rem; }
+.dcc-links { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .4rem 1.5rem; padding: 0; }
+.dcc-links a { color: var(--gold); font-weight: 600; }
+.dcc-faq details { border-bottom: 1px solid rgba(0,0,0,.1); padding: 1rem 0; }
+.dcc-faq summary { font-weight: 600; cursor: pointer; }
+.dcc-faq p { margin-top: .75rem; }
+@media (max-width: 600px) { .dcc-links { grid-template-columns: 1fr; } }
+</style>

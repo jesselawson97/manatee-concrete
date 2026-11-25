@@ -10,6 +10,9 @@ const {
   canonical = 'https://manateeconcrete.com',
 } = Astro.props;
 
+// Google Analytics 4: paste your Measurement ID (looks like G-XXXXXXXXXX). Empty = no tracking loads.
+const GA_ID = '';
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -81,6 +84,28 @@ const schema = {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/global.css" />
     <slot name="head" />
+    {GA_ID && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>}
+    {GA_ID && <script is:inline define:vars={{ GA_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      window.gtag = gtag;
+      gtag('config', GA_ID);
+    </script>}
+    <script is:inline>
+      // track('event_name', {...}) works whether or not GA is set up.
+      window.track = function (name, params) { if (window.gtag) window.gtag('event', name, params || {}); };
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="sms:"]');
+        if (a) window.track(a.href.indexOf('sms:') === 0 ? 'text_photo_click' : 'phone_click', { page: location.pathname });
+      });
+      document.addEventListener('submit', function (e) {
+        var f = e.target;
+        if (!f.matches || !f.matches('form[action*="web3forms"]')) return;
+        var pt = f.querySelector('[name="project-type"]');
+        window.track('generate_lead', { form: f.classList.contains('dce-form') ? 'driveway_estimator' : 'contact', project_type: pt ? pt.value : '', page: location.pathname });
+      });
+    </script>
   </head>
   <body>
     <slot />

@@ -2,6 +2,7 @@
 import Base from './Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import DrivewayEstimator from '../components/DrivewayEstimator.astro';
 import { cities, servicesForCity, type ResService, type City } from '../data/residential';
 
 interface Props {
@@ -13,6 +14,9 @@ const { service, city } = Astro.props;
 const slug = `${service.slug}-${city.slug}`;
 const isGlass = service.slug === 'glass-railings';
 const areaLabel = city.name;
+const estimatorFor: Record<string, 'concrete' | 'stamped' | 'pavers'> = { 'concrete-driveway': 'concrete', 'stamped-concrete': 'stamped', 'paver-driveway': 'pavers' };
+const estimator = estimatorFor[service.slug];
+const sms = `sms:+19417308491?&body=${encodeURIComponent(`Hi, here's a photo of my project in ${city.name} (${service.name}). I'd like an estimate.`)}`;
 
 const title = `${service.name} ${city.name} FL | Manatee Concrete`;
 const description = `${service.name} in ${areaLabel}, FL. Get matched with a licensed, insured local contractor. ${service.short} Free estimates: 941-730-8491.`;
@@ -68,7 +72,10 @@ const schema = {
       <p class="hero-eyebrow">Residential — {areaLabel}, FL</p>
       <h1>{service.name} in {city.name}, FL</h1>
       <p class="hero-sub">{service.short}</p>
-      <a href="#contact" class="btn btn-white">Get a Free Estimate</a>
+      <div class="lp-hero-ctas">
+        <a href={estimator ? '#driveway-cost' : '#contact'} class="btn btn-white">{estimator ? 'Estimate My Cost' : 'Get a Free Estimate'}</a>
+        <a href={sms} class="lp-hero-sms">or text us a photo: 941-730-8491</a>
+      </div>
     </div>
   </section>
 
@@ -83,6 +90,7 @@ const schema = {
           <div class="lp-cost">
             <h3>What does it cost?</h3>
             <p>{service.cost} Every project is different, so your contractor provides a written estimate after seeing the site.</p>
+            {estimator && <p style="margin-top:.6rem!important"><a href="#driveway-cost" style="color:var(--gold);font-weight:700;text-decoration:underline">Get a ballpark price for your driveway size &rarr;</a></p>}
           </div>
           <a href="#contact" class="btn btn-gold" style="margin-top:1.5rem">Get My Estimate</a>
         </div>
@@ -98,6 +106,8 @@ const schema = {
       </div>
     </div>
   </section>
+
+  {estimator && <DrivewayEstimator city={city.name} initial={estimator} page={canonical} />}
 
   <section class="lp-local">
     <div class="container">
@@ -190,6 +200,7 @@ const schema = {
           <h2>{service.name} in {city.name}: Get a Free Estimate</h2>
           <p>Tell us about your project and we'll match you with a licensed local contractor, who will reach out within one business day to set up a free estimate.</p>
           <div class="contact-detail"><strong>Phone:</strong> <span>941-730-8491</span></div>
+          <div class="contact-detail"><strong>Text a photo:</strong> <a href={sms} style="color:var(--gold);font-weight:600">941-730-8491</a></div>
           <div class="contact-detail"><strong>Email:</strong> <span>projects@gulfwayconstruction.com</span></div>
         </div>
         <form class="contact-form" method="POST" action="https://api.web3forms.com/submit">
@@ -214,6 +225,11 @@ const schema = {
   </section>
 
   <Footer />
+  <div class="lp-mbar">
+    <a href="tel:9417308491">Call</a>
+    <a href={sms}>Text a Photo</a>
+    <a href={estimator ? '#driveway-cost' : '#contact'} class="on">{estimator ? 'Price It' : 'Free Estimate'}</a>
+  </div>
 </Base>
 
 <style>
@@ -464,6 +480,15 @@ const schema = {
 .lp-gallery-grid img { width: 100%; height: 360px; object-fit: cover; border-radius: var(--radius); display: block; }
 .lp-gallery-grid figcaption { font-size: .8rem; color: var(--mid); margin-top: .4rem; }
 @media (max-width: 760px) { .lp-gallery-grid { grid-template-columns: 1fr; } .lp-gallery-grid img { height: 300px; } }
+.lp-hero-ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.lp-hero-sms { color: var(--white); font-size: .9rem; font-weight: 600; text-decoration: underline; opacity: .9; }
+.lp-mbar { display: none; }
+@media (max-width: 760px) {
+  .lp-mbar { display: grid; grid-template-columns: 1fr 1fr 1fr; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--dark); box-shadow: 0 -4px 16px rgba(0,0,0,.2); padding-bottom: env(safe-area-inset-bottom); }
+  .lp-mbar a { color: var(--white); text-align: center; padding: .95rem .25rem; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-right: 1px solid rgba(255,255,255,.12); }
+  .lp-mbar a.on { background: var(--gold); border-right: 0; }
+  :global(footer) { padding-bottom: 64px; }
+}
 /* Mobile */
 @media (max-width: 860px) {
   .lp-intro-inner { grid-template-columns: 1fr; gap: 2.5rem; }

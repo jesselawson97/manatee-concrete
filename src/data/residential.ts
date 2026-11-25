@@ -79,8 +79,8 @@ export const cities: City[] = [
 
 export const services: ResService[] = [
   {
-    name: 'Driveway Replacement',
-    slug: 'driveway-replacement',
+    name: 'Concrete Driveway Replacement',
+    slug: 'concrete-driveway',
     short: 'Tear-out and replacement of cracked or sunken residential concrete driveways, including widening and new aprons.',
     heroImage: '',
     intro: (c) => `Cracked, sunken or stained driveway? Get matched with a local contractor who tears out and replaces residential concrete driveways in ${c.name}, including widening for an extra car and a new apron at the street.`,
